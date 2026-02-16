@@ -1,7 +1,7 @@
 import os
 
 from conan import ConanFile
-from conan.tools.cmake import CMake, CMakeToolchain, cmake_layout
+from conan.tools.cmake import CMake, CMakeToolchain, cmake_layout, CMakeConfigDeps
 from conan.tools.files import apply_conandata_patches, copy, export_conandata_patches, get, replace_in_file
 
 required_conan_version = ">=1.53.0"
@@ -20,13 +20,19 @@ class IMGUIConan(ConanFile):
     options = {
         "shared": [True, False],
         "fPIC": [True, False],
-        "enable_test_engine": [True, False]
+        "enable_test_engine": [True, False],
+        "with_sdl3_bindings": [True, False],
     }
     default_options = {
         "shared": False,
         "fPIC": True,
-        "enable_test_engine": False
+        "enable_test_engine": False,
+        "with_sdl3_bindings": False,
     }
+
+    def requirements(self):
+        if self.options.with_sdl3_bindings:
+            self.requires("sdl/[>3]")
 
     def export_sources(self):
         copy(self, "CMakeLists.txt", self.recipe_folder, self.export_sources_folder)
@@ -55,6 +61,8 @@ class IMGUIConan(ConanFile):
     def generate(self):
         tc = CMakeToolchain(self)
         tc.variables["IMGUI_SRC_DIR"] = self.source_folder.replace("\\", "/")
+        if self.options.with_sdl3_bindings:
+            tc.variables["IMGUI_WITH_SDL3_BINDINGS"] = "ON"
         # test engine is not available for all versions
         if self.options.get_safe("enable_test_engine"):
             tc.preprocessor_definitions["IMGUI_ENABLE_TEST_ENGINE"] = "1"
@@ -62,6 +70,9 @@ class IMGUIConan(ConanFile):
             tc.variables["IMGUI_ENABLE_TEST_ENGINE"] = "ON"
             tc.variables["IMGUI_TEST_ENGINE_DIR"] = os.path.join(self.source_folder, "test_engine").replace("\\", "/")
         tc.generate()
+
+        deps = CMakeConfigDeps(self)
+        deps.generate()
 
     def _patch_sources(self):
         apply_conandata_patches(self)
