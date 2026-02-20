@@ -153,7 +153,6 @@ class EmSDKConan(ConanFile):
 
         toolchain = os.path.join(self.package_folder, "bin", "upstream", "emscripten", "cmake", "Modules", "Platform", "Emscripten.cmake")
         self.conf_info.prepend("tools.cmake.cmaketoolchain:user_toolchain", toolchain)
-        self.conf_info.define("tools.build:sysroot", os.path.join( self.package_folder, "bin", "upstream", "emscripten", "cache", "sysroot"))
 
         self.buildenv_info.define_path("EMSDK", self._emsdk)
         self.buildenv_info.define_path("EMSCRIPTEN", self._emscripten)
