@@ -15,7 +15,7 @@ class SDL3WebGPU(ConanFile):
     url = "https://github.com/conan-io/conan-center-index"
     homepage = "https://github.com/eliemichel/sdl3webgpu"
     topics = ("sdl3", "graphics", "wgsl", "emscripten")
-    package_type = "library"
+    package_type = "static-library"
     settings = "os", "arch", "compiler", "build_type"
 
     def layout(self):
@@ -36,10 +36,14 @@ class SDL3WebGPU(ConanFile):
             src=self.source_folder,
             dst=os.path.join(self.package_folder, "licenses"),
         )
-        copy(self, pattern="sdl3webgpu.h", src=self.source_folder, dst=os.path.join(self.package_folder, "include"))
+        copy(
+            self,
+            pattern="sdl3webgpu.h",
+            src=self.source_folder,
+            dst=os.path.join(self.package_folder, "include"),
+        )
 
     def package_info(self):
-        self.cpp_info.components["sdl3"].libs =  "sdl3webgpu"
+        self.cpp_info.components["sdl3"].libs = "sdl3webgpu"
         self.cpp_info.set_property("cmake_file_name", "SDL3WebGPU")
         self.cpp_info.set_property("cmake_target_name", "SDL3WebGPU::SDL3WebGPU")
-
