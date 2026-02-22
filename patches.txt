@@ -2,6 +2,5 @@ These patches have not made it upstream yet (or never will):
 * [sdl] binding option https://github.com/conan-io/conan-center-index/pull/29588
 * [imgui] binary_to_compressed option https://github.com/conan-io/conan-center-index/pull/29634
 * [bgfx] emscripten multithreading default fix https://github.com/conan-io/conan-center-index/pull/29596
-* system browser support for emrun on macOS https://github.com/emscripten-core/emscripten/pull/26313
 * add sdl3webgpu https://github.com/conan-io/conan-center-index/pull/29632
 * [bgfx/bimg] fix project dir for macos clang https://github.com/conan-io/conan-center-index/pull/29635
