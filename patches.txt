@@ -4,3 +4,4 @@ These patches have not made it upstream yet (or never will):
 * [bgfx] emscripten multithreading default fix https://github.com/conan-io/conan-center-index/pull/29596
 * add sdl3webgpu https://github.com/conan-io/conan-center-index/pull/29632
 * [bgfx/bimg] fix project dir for macos clang https://github.com/conan-io/conan-center-index/pull/29635
+* [bgfx,bimg,bx] upgrade https://github.com/conan-io/conan-center-index/pull/29638
