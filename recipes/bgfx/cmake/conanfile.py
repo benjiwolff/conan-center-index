@@ -20,8 +20,8 @@ class bgfxConan(ConanFile):
     topics = ("rendering", "graphics", "gamedev")
     package_type = "library"
     settings = "os", "compiler", "arch", "build_type"
-    options = {"fPIC": [True, False], "shared": [True, False], "tools": [True, False]}
-    default_options = {"fPIC": True, "shared": False, "tools": False}
+    options = {"fPIC": [True, False], "shared": [True, False], "tools": [True, False], "webgpu": [True, False]}
+    default_options = {"fPIC": True, "shared": False, "tools": False, "webgpu": False}
     languages = "C++"
     # INFO: bgfx supports shared, but only generates bgfx as shared and all others as static
     implements = ["auto_shared_fpic"]
@@ -67,6 +67,8 @@ class bgfxConan(ConanFile):
         tc.cache_variables["BX_AMALGAMATED"] = True
         tc.cache_variables["BGFX_AMALGAMATED"] = True
         tc.cache_variables["BGFX_OPENGLES_VERSION"] = 30
+        if self.options.webgpu:
+            tc.cache_variables["BGFX_CONFIG_RENDERER_WEBGPU"] = True
         tc.generate()
         deps = CMakeDeps(self)
         if self.settings.os == "Linux":
