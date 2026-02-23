@@ -82,6 +82,7 @@ class bgfxConan(ConanFile):
         if self.settings.os == "Emscripten" and self.options.webgpu:
             rm(self, pattern="webgpu.h", folder=os.path.join(self.source_folder, "bgfx/3rdparty/dawn/include/webgpu"))
             render_webgpu = os.path.join(self.source_folder,"bgfx/src/renderer_webgpu.h")
+            replace_in_file(self, render_webgpu, "#define WGPU_SKIP_DECLARATIONS", "")
             replace_in_file(self, render_webgpu, "#include <dawn/include/webgpu/webgpu.h>", "#include <webgpu/webgpu.h>")
         cmake = CMake(self)
         cmake.configure()
