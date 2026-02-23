@@ -80,7 +80,7 @@ class bgfxConan(ConanFile):
 
     def build(self):
         if self.settings.os == "Emscripten" and self.options.webgpu:
-            rm(self, pattern="webgpu.h", folder=os.path.join(self.source_folder, "src/bgfx/3rdparty/dawn/include/webgpu"))
+            rm(self, pattern="webgpu.h", folder=os.path.join(self.source_folder, "bgfx/3rdparty/dawn/include/webgpu"))
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
