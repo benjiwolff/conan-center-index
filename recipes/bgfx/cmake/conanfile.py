@@ -1,5 +1,5 @@
 from conan import ConanFile
-from conan.tools.files import copy, get, rmdir, rm
+from conan.tools.files import copy, get, rmdir, rm, replace_in_file
 from conan.tools.build import check_min_cppstd
 from conan.tools.cmake import CMake, CMakeToolchain, CMakeDeps, cmake_layout
 from conan.tools.apple import is_apple_os
@@ -81,6 +81,8 @@ class bgfxConan(ConanFile):
     def build(self):
         if self.settings.os == "Emscripten" and self.options.webgpu:
             rm(self, pattern="webgpu.h", folder=os.path.join(self.source_folder, "bgfx/3rdparty/dawn/include/webgpu"))
+            render_webgpu = os.path.join(self.source_folder,"bgfx/src/renderer_webgpu.h")
+            replace_in_file(self, render_webgpu, "#include <dawn/include/webgpu/webgpu.h>", "#include <webgpu/webgpu.h>")
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
