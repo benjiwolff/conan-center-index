@@ -52,6 +52,8 @@ class bgfxConan(ConanFile):
 
     def source(self):
         get(self, **self.conan_data["sources"][self.version], strip_root=True)
+        if self.settings.os == "Emscripten" and self.options.webgpu:
+            rm(self, pattern="webgpu.h", folder=os.path.join(self.source_folder, "3rdparty/dawn/include/webgpu"))
 
     def generate(self):
         tc = CMakeToolchain(self)
