@@ -72,7 +72,7 @@ class IMGUIConan(ConanFile):
         tc.variables["IMGUI_SRC_DIR"] = self.source_folder.replace("\\", "/")
         if self.options.with_sdl3_binding:
             tc.variables["IMGUI_WITH_SDL3_BINDING"] = "ON"
-        if self.options.with_webgpu_binding:
+        if self.options.with_wgpu_binding:
             tc.variables["IMGUI_WITH_WGPU_BINDING"] = "ON"
         # test engine is not available for all versions
         if self.options.get_safe("enable_test_engine"):
