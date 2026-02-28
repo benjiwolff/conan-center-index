@@ -74,8 +74,6 @@ class IMGUIConan(ConanFile):
             tc.variables["IMGUI_WITH_SDL3_BINDING"] = "ON"
         if self.options.with_wgpu_binding:
             tc.variables["IMGUI_WITH_WGPU_BINDING"] = "ON"
-            if self.options.with_wgpu_binding == "dawn":
-                tc.preprocessor_definitions["IMGUI_IMPL_WEBGPU_BACKEND_DAWN"] = "1"
         # test engine is not available for all versions
         if self.options.get_safe("enable_test_engine"):
             tc.preprocessor_definitions["IMGUI_ENABLE_TEST_ENGINE"] = "1"

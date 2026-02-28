@@ -1,6 +1,9 @@
 # this package's recipe relies on version suffixes to handle imgui's docking branch.
 # Suffix: -docking for docking branch sources
 sources:
+  "1.92.7-rc":
+    core:
+      url: "https://github.com/ocornut/imgui/archive/ba84d2d37253c89b17b2cb7b357e130093b79ef5.tar.gz"
   "1.92.5":
     core:
       url: "https://github.com/ocornut/imgui/archive/v1.92.5.tar.gz"
