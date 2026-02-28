@@ -22,6 +22,7 @@ class IMGUIConan(ConanFile):
         "fPIC": [True, False],
         "enable_test_engine": [True, False],
         "with_sdl3_binding": [True, False],
+        "with_wgpu_binding": [True, False],
         "with_binary_to_compressed": [True, False],
     }
     default_options = {
@@ -29,12 +30,20 @@ class IMGUIConan(ConanFile):
         "fPIC": True,
         "enable_test_engine": False,
         "with_sdl3_binding": False,
+        "with_wgpu_binding": False,
         "with_binary_to_compressed": True,
     }
+
+    def configure_options():
+        if self.settings.os != "Emscripten":
+            # not implemented yet
+            del self.options.with_wgpu_binding
 
     def requirements(self):
         if self.options.with_sdl3_binding:
             self.requires("sdl/[>3]")
+        if self.options.with_wgpu_binding:
+            self.requires("emsdk")
 
     def export_sources(self):
         copy(self, "CMakeLists.txt", self.recipe_folder, self.export_sources_folder)
@@ -65,6 +74,8 @@ class IMGUIConan(ConanFile):
         tc.variables["IMGUI_SRC_DIR"] = self.source_folder.replace("\\", "/")
         if self.options.with_sdl3_binding:
             tc.variables["IMGUI_WITH_SDL3_BINDING"] = "ON"
+        if self.options.with_webgpu_binding:
+            tc.variables["IMGUI_WITH_WGPU_BINDING"] = "ON"
         # test engine is not available for all versions
         if self.options.get_safe("enable_test_engine"):
             tc.preprocessor_definitions["IMGUI_ENABLE_TEST_ENGINE"] = "1"
