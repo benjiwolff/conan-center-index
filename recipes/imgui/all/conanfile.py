@@ -42,8 +42,6 @@ class IMGUIConan(ConanFile):
     def requirements(self):
         if self.options.with_sdl3_binding:
             self.requires("sdl/[>3]")
-        if self.options.with_wgpu_binding:
-            self.requires("emsdk")
 
     def export_sources(self):
         copy(self, "CMakeLists.txt", self.recipe_folder, self.export_sources_folder)
