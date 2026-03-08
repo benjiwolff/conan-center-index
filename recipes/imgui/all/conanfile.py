@@ -40,7 +40,7 @@ class IMGUIConan(ConanFile):
             del self.options.with_wgpu_binding
 
     def requirements(self):
-        if self.options.with_sdl3_binding:
+        if self.options.get_safe("with_sdl3_binding"):
             self.requires("sdl/[>3 <4]", transitive_headers=True)
 
     def export_sources(self):
@@ -75,8 +75,7 @@ class IMGUIConan(ConanFile):
     def generate(self):
         tc = CMakeToolchain(self)
         tc.variables["IMGUI_SRC_DIR"] = self.source_folder.replace("\\", "/")
-        if self.options.with_sdl3_binding:
-            tc.variables["IMGUI_WITH_SDL3_BINDING"] = "ON"
+        tc.variables["IMGUI_WITH_SDL3_BINDING"] = self.options.get_safe("with_sdl3_binding", False)
         if self.options.with_wgpu_binding:
             tc.variables["IMGUI_WITH_WGPU_BINDING"] = "ON"
         # test engine is not available for all versions
