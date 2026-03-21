@@ -44,12 +44,13 @@ class CpptraceConan(ConanFile):
 
     @property
     def _fallback_to_ninja(self):
-        return self.conf.get("tools.cmake.cmaketoolchain:generator") == "Unix Makefiles"
+        return self.conf.get("tools.cmake.cmaketoolchain:generator") is None
 
     def build_requirements(self):
-        self.tool_requires("cmake/>=3.28")
+        # required for c++ modules
+        self.tool_requires("cmake/[>=3.28]")
         if self._fallback_to_ninja:
-            self.tool_requires("ninja/>=1")
+            self.tool_requires("ninja/[>=0]")
 
     def requirements(self):
         self.requires("libdwarf/[>=0.11.0 <3]")
