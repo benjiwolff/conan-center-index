@@ -53,7 +53,7 @@ class CpptraceConan(ConanFile):
 
 
     def build_requirements(self):
-        if self._uses_cpp_modules
+        if self._uses_cpp_modules:
             self.tool_requires("cmake/[>=3.28]")
         if self._fallback_to_ninja:
             self.tool_requires("ninja/[>=0]")
