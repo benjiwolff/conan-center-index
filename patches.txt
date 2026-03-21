@@ -1,5 +1,4 @@
 These patches have not made it upstream yet (or never will):
 * [imgui] binary_to_compressed option https://github.com/conan-io/conan-center-index/pull/29634
-* [bgfx] emscripten multithreading default fix https://github.com/conan-io/conan-center-index/pull/29596
 * add sdl3webgpu https://github.com/conan-io/conan-center-index/pull/29632
 * [cpptrace] Fix c++ module support: https://github.com/conan-io/conan-center-index/pull/29825

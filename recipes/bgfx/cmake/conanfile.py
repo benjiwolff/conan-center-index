@@ -1,5 +1,5 @@
 from conan import ConanFile
-from conan.tools.files import copy, get, rmdir, rm, replace_in_file
+from conan.tools.files import copy, get, rmdir, rm
 from conan.tools.build import check_min_cppstd
 from conan.tools.cmake import CMake, CMakeToolchain, CMakeDeps, cmake_layout
 from conan.tools.apple import is_apple_os
@@ -20,8 +20,8 @@ class bgfxConan(ConanFile):
     topics = ("rendering", "graphics", "gamedev")
     package_type = "library"
     settings = "os", "compiler", "arch", "build_type"
-    options = {"fPIC": [True, False], "shared": [True, False], "tools": [True, False], "webgpu": [True, False]}
-    default_options = {"fPIC": True, "shared": False, "tools": False, "webgpu": False}
+    options = {"fPIC": [True, False], "shared": [True, False], "tools": [True, False]}
+    default_options = {"fPIC": True, "shared": False, "tools": False}
     languages = "C++"
     # INFO: bgfx supports shared, but only generates bgfx as shared and all others as static
     implements = ["auto_shared_fpic"]
@@ -67,8 +67,6 @@ class bgfxConan(ConanFile):
         tc.cache_variables["BX_AMALGAMATED"] = True
         tc.cache_variables["BGFX_AMALGAMATED"] = True
         tc.cache_variables["BGFX_OPENGLES_VERSION"] = 30
-        if self.options.webgpu:
-            tc.cache_variables["BGFX_CONFIG_RENDERER_WEBGPU"] = True
         tc.generate()
         deps = CMakeDeps(self)
         if self.settings.os == "Linux":
@@ -79,11 +77,6 @@ class bgfxConan(ConanFile):
         deps.generate()
 
     def build(self):
-        if self.settings.os == "Emscripten" and self.options.webgpu:
-            rm(self, pattern="webgpu.h", folder=os.path.join(self.source_folder, "bgfx/3rdparty/dawn/include/webgpu"))
-            render_webgpu = os.path.join(self.source_folder,"bgfx/src/renderer_webgpu.h")
-            replace_in_file(self, render_webgpu, "#define WGPU_SKIP_DECLARATIONS", "")
-            replace_in_file(self, render_webgpu, "#include <dawn/include/webgpu/webgpu.h>", "#include <webgpu/webgpu.h>")
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
@@ -147,7 +140,9 @@ class bgfxConan(ConanFile):
             self.cpp_info.components["bgfx"].requires.extend(["xorg::xorg", "opengl::opengl", "wayland::wayland"])
         elif is_apple_os(self):
             self.cpp_info.components["bgfx"].frameworks = ["Cocoa", "Metal", "QuartzCore", "IOKit", "CoreFoundation"]
-        self.cpp_info.components["bgfx"].defines.append(f"BGFX_CONFIG_DEBUG_ANNOTATION={1 if self.settings.build_type == 'Debug' else 0}")
+        # multithreaded rendering is enabled by default via BGFX_CONFIG_MULTITHREADED
+        self.cpp_info.components["bgfx"].defines.extend(["BGFX_CONFIG_MULTITHREADED=1",
+                                                   f"BGFX_CONFIG_DEBUG_ANNOTATION={1 if self.settings.build_type == 'Debug' else 0}",])
 
         if self.options.tools:
             for tool in ["bin2c", "texturec", "texturev", "geometryc", "geometryv", "shaderc"]:
