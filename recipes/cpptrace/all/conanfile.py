@@ -42,7 +42,13 @@ class CpptraceConan(ConanFile):
     def layout(self):
         cmake_layout(self, src_folder="src")
 
+    @property
+    def _fallback_to_ninja(self):
+        return self.conf.get("tools.cmake.cmaketoolchain:generator") == "Unix Makefiles"
+
     def requirements(self):
+        if self._fallback_to_ninja:
+            self.requires("ninja/>=1")
         self.requires("libdwarf/[>=0.11.0 <3]")
         if self.options.unwind == "libunwind":
             self.requires("libunwind/1.8.0", transitive_libs=True)
@@ -62,6 +68,8 @@ class CpptraceConan(ConanFile):
 
     def generate(self):
         tc = CMakeToolchain(self)
+        if self._fallback_to_ninja:
+            tc.generator = "Ninja"
         if is_msvc(self):
             tc.variables["USE_MSVC_RUNTIME_LIBRARY_DLL"] = not is_msvc_static_runtime(self)
         tc.variables["CPPTRACE_USE_EXTERNAL_LIBDWARF"] = True
