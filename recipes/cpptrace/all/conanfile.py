@@ -46,9 +46,11 @@ class CpptraceConan(ConanFile):
     def _fallback_to_ninja(self):
         return self.conf.get("tools.cmake.cmaketoolchain:generator") == "Unix Makefiles"
 
-    def requirements(self):
+    def build_requirements(self):
         if self._fallback_to_ninja:
-            self.requires("ninja/>=1")
+            self.tool_requires("ninja/>=1")
+
+    def requirements(self):
         self.requires("libdwarf/[>=0.11.0 <3]")
         if self.options.unwind == "libunwind":
             self.requires("libunwind/1.8.0", transitive_libs=True)
