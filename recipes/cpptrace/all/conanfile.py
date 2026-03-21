@@ -47,6 +47,7 @@ class CpptraceConan(ConanFile):
         return self.conf.get("tools.cmake.cmaketoolchain:generator") is None
 
     def build_requirements(self):
+        # required for c++ modules
         self.tool_requires("cmake/[>=3.28]")
         if self._fallback_to_ninja:
             self.tool_requires("ninja/[>=0]")
