@@ -44,7 +44,7 @@ class CpptraceConan(ConanFile):
 
     @property
     def _fallback_to_ninja(self):
-        return self.conf.get("tools.cmake.cmaketoolchain:generator") == "Unix Makefiles"
+        return self.conf.get("tools.cmake.cmaketoolchain:generator") is None
 
     def build_requirements(self):
         self.tool_requires("cmake/>=3.28")
