@@ -23,12 +23,14 @@ class IMGUIConan(ConanFile):
         "fPIC": [True, False],
         "enable_test_engine": [True, False],
         "with_sdl3_binding": [True, False],
+        "with_wgpu_binding": ["dawn", False],
     }
     default_options = {
         "shared": False,
         "fPIC": True,
         "enable_test_engine": False,
         "with_sdl3_binding": False,
+        "with_wgpu_binding": False,
     }
 
     def requirements(self):
@@ -68,6 +70,7 @@ class IMGUIConan(ConanFile):
         tc = CMakeToolchain(self)
         tc.variables["IMGUI_SRC_DIR"] = self.source_folder.replace("\\", "/")
         tc.variables["IMGUI_WITH_SDL3_BINDING"] = self.options.get_safe("with_sdl3_binding", False)
+        tc.variables["IMGUI_WITH_WGPU_BINDING"] = self.options.get_safe("with_wgpu_binding", False)
         # test engine is not available for all versions
         if self.options.get_safe("enable_test_engine"):
             tc.preprocessor_definitions["IMGUI_ENABLE_TEST_ENGINE"] = "1"

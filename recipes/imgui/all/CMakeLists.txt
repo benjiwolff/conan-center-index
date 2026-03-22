@@ -37,6 +37,11 @@ if(IMGUI_WITH_SDL3_BINDING)
     target_link_libraries(${PROJECT_NAME} PUBLIC SDL3::SDL3)
 endif()
 
+if(IMGUI_WITH_WGPU_BINDING)
+    target_sources(${PROJECT_NAME} PRIVATE ${IMGUI_SRC_DIR}/backends/imgui_impl_wgpu.cpp)
+    list(APPEND HEADER_FILES ${IMGUI_SRC_DIR}/backends/imgui_impl_wgpu.h)
+endif()
+
 set_target_properties(${PROJECT_NAME} PROPERTIES
     CXX_VISIBILITY_PRESET hidden
     VISIBILITY_INLINES_HIDDEN ON
