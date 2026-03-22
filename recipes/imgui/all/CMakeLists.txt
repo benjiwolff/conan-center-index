@@ -44,6 +44,7 @@ if(IMGUI_WITH_WGPU_BINDING)
         find_package(dawn REQUIRED)
         target_link_libraries(${PROJECT_NAME} PUBLIC dawn::dawn)
         target_compile_definitions(${PROJECT_NAME} PRIVATE IMGUI_IMPL_WEBGPU_BACKEND_DAWN)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -x objective-c++")
     endif()
 endif()
 
