@@ -43,7 +43,7 @@ class IMGUIConan(ConanFile):
     def requirements(self):
         if self.options.get_safe("with_sdl3_binding"):
             self.requires("sdl/[>3 <4]", transitive_headers=True)
-        if self.options.with_wgpu_binding == "dawn-native" and self.settings.os != "Emscripten":
+        if self.options.with_wgpu_binding == "dawn" and self.settings.os != "Emscripten":
             self.requires("dawn-native/[>0]")
 
     def export_sources(self):
