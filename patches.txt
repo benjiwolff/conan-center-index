@@ -1,6 +1,6 @@
 These patches have not made it upstream yet (or never will):
 * [dawn-native] new recipe for dawn native
-    * [imgui] with_wgpu_binding option (no PR yet)
+    * [imgui] with_wgpu_binding option
 * [imgui] binary_to_compressed option https://github.com/conan-io/conan-center-index/pull/29634
 * add sdl3webgpu https://github.com/conan-io/conan-center-index/pull/29632
 * [cpptrace] Fix c++ module support: https://github.com/conan-io/conan-center-index/pull/29825
