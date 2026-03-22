@@ -40,6 +40,12 @@ endif()
 if(IMGUI_WITH_WGPU_BINDING)
     target_sources(${PROJECT_NAME} PRIVATE ${IMGUI_SRC_DIR}/backends/imgui_impl_wgpu.cpp)
     list(APPEND HEADER_FILES ${IMGUI_SRC_DIR}/backends/imgui_impl_wgpu.h)
+    if(IMGUI_WITH_WGPU_BINDING STREQUAL "dawn")
+        find_package(dawn REQUIRED)
+        target_link_libraries(${PROJECT_NAME} PUBLIC dawn::dawn)
+        target_compile_definitions(${PROJECT_NAME} PRIVATE IMGUI_IMPL_WEBGPU_BACKEND_DAWN)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -x objective-c++")
+    endif()
 endif()
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
