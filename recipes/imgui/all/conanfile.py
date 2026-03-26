@@ -24,7 +24,6 @@ class IMGUIConan(ConanFile):
         "enable_test_engine": [True, False],
         "with_sdl3_binding": [True, False],
         "with_wgpu_binding": ["dawn", False],
-        "with_binary_to_compressed": [True, False],
     }
     default_options = {
         "shared": False,
@@ -32,7 +31,6 @@ class IMGUIConan(ConanFile):
         "enable_test_engine": False,
         "with_sdl3_binding": False,
         "with_wgpu_binding": False,
-        "with_binary_to_compressed": True,
     }
 
     def configure_options():
@@ -86,8 +84,6 @@ class IMGUIConan(ConanFile):
             tc.preprocessor_definitions["IMGUI_TEST_ENGINE_ENABLE_COROUTINE_STDTHREAD_IMPL"] = "1"
             tc.variables["IMGUI_ENABLE_TEST_ENGINE"] = "ON"
             tc.variables["IMGUI_TEST_ENGINE_DIR"] = os.path.join(self.source_folder, "test_engine").replace("\\", "/")
-        if self.options.with_binary_to_compressed:
-            tc.variables["IMGUI_WITH_BINARY_TO_COMPRESSED"] = "ON"
         tc.generate()
 
         deps = CMakeDeps(self)
