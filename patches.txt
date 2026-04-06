@@ -1,4 +1,6 @@
 These patches have not made it upstream yet (or never will):
+* [bullet3] use fixed BulletRoboticsGui https://github.com/bulletphysics/bullet3/pull/4785
+* [bullet3] use fixed cpp_info
 * [dawn-native] new recipe for dawn native
     * [imgui] with_wgpu_binding option
 * add sdl3webgpu https://github.com/conan-io/conan-center-index/pull/29632
