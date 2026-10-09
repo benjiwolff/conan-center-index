@@ -23,6 +23,7 @@ class IMGUIConan(ConanFile):
         "fPIC": [True, False],
         "enable_test_engine": [True, False],
         "with_sdl3_binding": [True, False],
+        "use_wchar32": [True, False],
         "with_wgpu_binding": ["dawn", False],
     }
     default_options = {
@@ -30,6 +31,7 @@ class IMGUIConan(ConanFile):
         "fPIC": True,
         "enable_test_engine": False,
         "with_sdl3_binding": False,
+        "use_wchar32": False,
         "with_wgpu_binding": False,
     }
 
@@ -84,6 +86,8 @@ class IMGUIConan(ConanFile):
             tc.preprocessor_definitions["IMGUI_TEST_ENGINE_ENABLE_COROUTINE_STDTHREAD_IMPL"] = "1"
             tc.variables["IMGUI_ENABLE_TEST_ENGINE"] = "ON"
             tc.variables["IMGUI_TEST_ENGINE_DIR"] = os.path.join(self.source_folder, "test_engine").replace("\\", "/")
+        if self.options.use_wchar32:
+            tc.preprocessor_definitions["IMGUI_USE_WCHAR32"] = "1"
         tc.generate()
 
         deps = CMakeDeps(self)
@@ -126,6 +130,8 @@ class IMGUIConan(ConanFile):
         _is_docking_branch = "docking" in str(self.version)
         self.conf_info.define("user.imgui:with_docking", _is_docking_branch)
         self.cpp_info.libs = ["imgui"]
+        if self.options.use_wchar32:
+            self.cpp_info.defines.append("IMGUI_USE_WCHAR32")
         if self.settings.os == "Linux":
             self.cpp_info.system_libs.append("m")
         if self.settings.os == "Windows":
